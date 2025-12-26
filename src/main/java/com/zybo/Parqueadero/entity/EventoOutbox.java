@@ -3,6 +3,11 @@ package com.zybo.Parqueadero.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Entidad para el patrón Outbox - simula cola de mensajería.
+ * Almacena eventos pendientes de despachar a otros sistemas.
+ * @author Juan Rozo
+ */
 @Entity
 @Table(name = "evento_outbox")
 public class EventoOutbox {
@@ -11,22 +16,25 @@ public class EventoOutbox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Tipo de evento (ej: SALIDA_REGISTRADA)
     @Column(name = "tipo_evento", length = 40)
     private String tipoEvento;
 
+    // Payload JSON con datos del evento
     @Column(columnDefinition = "TEXT")
     private String payload;
 
+    // Estado: PENDIENTE o ENVIADO
     @Column(length = 12)
-    private String estado; // PENDIENTE o ENVIADO
+    private String estado;
 
     @Column(name = "creado_en")
     private LocalDateTime creadoEn;
 
     @PrePersist
     protected void onCreate() {
-        creadoEn = LocalDateTime.now();
-        estado = "PENDIENTE";
+        this.creadoEn = LocalDateTime.now();
+        this.estado = "PENDIENTE";
     }
 
     // Getters y Setters

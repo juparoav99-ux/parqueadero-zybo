@@ -3,6 +3,11 @@ package com.zybo.Parqueadero.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Entidad que representa un usuario del parqueadero.
+ * Un usuario puede tener múltiples vehículos asociados.
+ * @author Juan Rozo
+ */
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -14,18 +19,21 @@ public class Usuario {
     @Column(nullable = false, length = 120)
     private String nombres;
 
+    // Documento único para identificar al usuario
     @Column(nullable = false, unique = true, length = 30)
     private String documento;
 
+    // Teléfono único para contacto
     @Column(nullable = false, unique = true, length = 30)
     private String telefono;
 
     @Column(name = "creado_en")
     private LocalDateTime creadoEn;
 
+    // Se ejecuta antes de persistir para registrar fecha de creación
     @PrePersist
     protected void onCreate() {
-        creadoEn = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
     }
 
     // Getters y Setters

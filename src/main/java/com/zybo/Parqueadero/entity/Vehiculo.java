@@ -3,6 +3,11 @@ package com.zybo.Parqueadero.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Entidad que representa un vehículo registrado en el sistema.
+ * Cada vehículo pertenece a un usuario.
+ * @author Juan Rozo
+ */
 @Entity
 @Table(name = "vehiculo")
 public class Vehiculo {
@@ -11,10 +16,12 @@ public class Vehiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Relación con usuario - un vehículo pertenece a un usuario
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    // Placa única del vehículo
     @Column(nullable = false, unique = true, length = 12)
     private String placa;
 
@@ -23,7 +30,7 @@ public class Vehiculo {
 
     @PrePersist
     protected void onCreate() {
-        creadoEn = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
     }
 
     // Getters y Setters
